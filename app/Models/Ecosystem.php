@@ -10,4 +10,11 @@ class Ecosystem {
     $st->execute([$nombre, $descripcion, $clasificacion, $lugar, $imagenUrl]);
     return (int) DB::conn()->lastInsertId();
   }
+  
+  public static function getAll() {
+      $sql = "SELECT id, nombre FROM ecosistemas ORDER BY nombre ASC";
+      $stmt = DB::conn()->prepare($sql);
+      $stmt->execute();
+      return $stmt;
+  }
 }

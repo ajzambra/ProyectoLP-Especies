@@ -17,3 +17,18 @@ CREATE TABLE ecosistemas (
   updated_at TIMESTAMP NULL ON UPDATE CURRENT_TIMESTAMP,
   UNIQUE KEY uniq_ecosistemas_nombre (nombre)
 ) ENGINE=InnoDB;
+
+-- Tabla para almacenar las Especies
+CREATE TABLE especies (
+    id_especie INT PRIMARY KEY AUTO_INCREMENT,
+    id_ecosistema INT,
+    nombre_comun VARCHAR(100) NOT NULL,
+    descripcion TEXT,
+    tipo ENUM('Flora', 'Fauna') NOT NULL, -- El tipo de especie puede ser 'Flora' o 'Fauna' 
+    imagen_url VARCHAR(255),
+    fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    fecha_actualizacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    
+    -- Definición de la llave foránea para relacionar con la tabla ecosistemas
+    FOREIGN KEY (id_ecosistema) REFERENCES ecosistemas(id) ON DELETE SET NULL
+);
