@@ -147,7 +147,8 @@ class EcosystemController {
       exit;
     }
 
-    header('Location: ' . BASE_URL . '/app/Views/ecosystems/index.php');
+    header("Location: " . BASE_URL . "/app/Views/ecosystems/edit.php?id=$id");
     exit;
   }
 }
+
