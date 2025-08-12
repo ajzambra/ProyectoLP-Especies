@@ -17,4 +17,18 @@ class Ecosystem {
       $stmt->execute();
       return $stmt;
   }
+  
+  public static function find(int $id): ?array {
+    $sql = "SELECT * FROM ecosistemas WHERE id = ?";
+    $st = DB::conn()->prepare($sql);
+    $st->execute([$id]);
+    $result = $st->fetch();
+    return $result ?: null;
+  }
+
+  public static function update(int $id, string $nombre, ?string $descripcion, string $clasificacion, ?string $lugar, ?string $imagenUrl): void {
+    $sql = "UPDATE ecosistemas SET nombre = ?, descripcion = ?, clasificacion = ?, lugar = ?, imagen_url = ?, updated_at = NOW() WHERE id = ?";
+    $st = DB::conn()->prepare($sql);
+    $st->execute([$nombre, $descripcion, $clasificacion, $lugar, $imagenUrl, $id]);
+  }
 }
