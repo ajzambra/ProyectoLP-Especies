@@ -102,7 +102,7 @@ class Species {
     }
 
     // -----------------------------------------------------------------
-    // --- MÉTODOS ASIGNADOS A ROBERTO BARRIOS ---
+    // --- MÉTODOS ASIGNADOS A ROBERTO BARRIOS --- Requerimiento avance 2
     // -----------------------------------------------------------------
     
 }

@@ -1,11 +1,6 @@
 <?php
-session_start();
+
 require_once __DIR__ . '/../../../config/app.php';
-
-$errores = $_SESSION['errores'] ?? [];
-$success = $_SESSION['success'] ?? null;
-unset($_SESSION['errores'], $_SESSION['success']);
-
 ?>
 
 <!DOCTYPE html>
@@ -17,11 +12,11 @@ unset($_SESSION['errores'], $_SESSION['success']);
 <body>
   <h1>Editar Ecosistema</h1>
 
-  <?php if ($success): ?>
+  <?php if (!empty($success)): ?>
     <div style="color:green"><?= htmlspecialchars($success) ?></div>
   <?php endif; ?>
 
-  <?php if ($errores): ?>
+  <?php if (!empty($errores)): ?>
     <ul style="color:red">
       <?php foreach ($errores as $e): ?>
         <li><?= htmlspecialchars($e) ?></li>
@@ -29,7 +24,7 @@ unset($_SESSION['errores'], $_SESSION['success']);
     </ul>
   <?php endif; ?>
 
-  <form method="POST" action="<?= BASE_URL ?>/api/ecosystems.php?action=update&id=<?= $ecosistema['id'] ?>" enctype="multipart/form-data">
+  <form method="POST" action="<?= BASE_URL ?>/api/ecosystems.php?action=update&id=<?= htmlspecialchars($ecosistema['id']) ?>" enctype="multipart/form-data">
     <label>Nombre:<br>
       <input type="text" name="nombre" maxlength="80" required value="<?= htmlspecialchars($ecosistema['nombre']) ?>">
     </label><br><br>
@@ -51,8 +46,8 @@ unset($_SESSION['errores'], $_SESSION['success']);
     </label><br><br>
 
     <label>Foto actual:<br>
-      <?php if ($ecosistema['imagen_url']): ?>
-        <img src="<?= BASE_URL . '/' . $ecosistema['imagen_url'] ?>" alt="Foto ecosistema" style="max-width:200px;">
+      <?php if (!empty($ecosistema['imagen_url'])): ?>
+        <img src="<?= BASE_URL . '/' . htmlspecialchars($ecosistema['imagen_url']) ?>" alt="Foto ecosistema" style="max-width:200px;">
       <?php else: ?>
         <em>No hay imagen</em>
       <?php endif; ?>
