@@ -9,14 +9,21 @@ if ($method === 'POST') {
   } else {
     EcosystemController::store();
   }
-} elseif ($method === 'GET') {
-  if (isset($_GET['action']) && $_GET['action'] === 'edit' && isset($_GET['id'])) {
-    EcosystemController::edit((int)$_GET['id']);
-  } else {
-    http_response_code(405);
-    header('Content-Type: application/json; charset=utf-8');
-    echo json_encode(['error' => 'Método GET no permitido.']);
-  }
+if ($method === 'GET') {
+    if (isset($_GET['action'])) {
+        if ($_GET['action'] === 'edit' && isset($_GET['id'])) {
+            EcosystemController::edit((int)$_GET['id']);
+        } elseif ($_GET['action'] === 'check' && isset($_GET['id'])) {
+            EcosystemController::check((int)$_GET['id']);
+        } else {
+            http_response_code(405);
+            header('Content-Type: application/json; charset=utf-8');
+            echo json_encode(['error' => 'Método GET no permitido.']);
+        }
+    }
+}
+
+
 } else {
   http_response_code(405);
   header('Content-Type: application/json; charset=utf-8');

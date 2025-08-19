@@ -136,6 +136,17 @@ class EcosystemController {
     header('Location: ' . BASE_URL . "/api/ecosystems.php?action=edit&id=$id");
     exit;
   }
+
+  public static function check(int $id): void {
+    $eco = Ecosystem::find($id);
+    if ($eco) {
+        echo json_encode(['status'=>'ok','id'=>$id,'nombre'=>$eco['nombre']]);
+    } else {
+        echo json_encode(['status'=>'error','msg'=>'No encontrado']);
+    }
+    exit;
+}
+
 }
 
 
