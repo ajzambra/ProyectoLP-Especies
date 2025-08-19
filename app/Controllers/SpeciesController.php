@@ -50,7 +50,7 @@ class SpeciesController {
             }
 
             if ($this->species->create()) {
-                header("Location: /species"); 
+                header("Location: /ProyectoLP-Especies/public/species"); 
                 exit();
             } else {
                 echo "Hubo un error al registrar la especie.";
@@ -60,9 +60,10 @@ class SpeciesController {
 
     public function edit(int $id) {
         $species = $this->species->find($id);
-        if (!$species) {
-            header('Location: /species');
-            exit;
+        if ($this->species->create()) {
+            // Añadimos la ruta completa del proyecto
+            header("Location: /ProyectoLP-Especies/public/species"); 
+            exit();
         }
 
         $stmt = Ecosystem::getAll();

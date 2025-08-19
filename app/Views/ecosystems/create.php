@@ -26,8 +26,7 @@ unset($_SESSION['errores'], $_SESSION['success']);
     </ul>
   <?php endif; ?>
 
-  <form method="POST" action="<?= BASE_URL ?>/api/ecosystems.php" enctype="multipart/form-data">
-    <label>Nombre:<br>
+<form action="/ProyectoLP-Especies/public/species" method="POST" enctype="multipart/form-data">    <label>Nombre:<br>
       <input type="text" name="nombre" maxlength="80" required>
     </label><br><br>
 

@@ -24,12 +24,13 @@ $action = $segments[1] ?? '';
 // 4. Crear una instancia del controlador de Especies
 $controller = new SpeciesController();
 
-// 5. Decidir qué método llamar
-// Si la URL es 'species/store' (cuando se envía el formulario), se llama al método store().
-// Para cualquier otra URL, se muestra por defecto el formulario de creación.
-if ($resource === 'species' && $action === 'store') {
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && $resource === 'species') {
+    // Si es POST a /species -> Guardar la nueva especie
     $controller->store();
+} elseif ($_SERVER['REQUEST_METHOD'] === 'GET' && $resource === 'species') {
+    // Si es GET a /species -> Mostrar la lista de todas las especies
+    $controller->index();
 } else {
-    // Por defecto, siempre cargamos la vista para crear una nueva especie.
+    // Para cualquier otra cosa (como la raíz), mostramos el formulario de creación
     $controller->create();
 }
