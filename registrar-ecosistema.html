@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Mi Avance: Registrar Ecosistema</title>
+  <link rel="stylesheet" href="public/css/registrar-ecosistema.css"/>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <header class="navbar">
+    <div class="navbar-container">
+      <a href="#" class="navbar-brand">🌿 Biodiversidad</a>
+      <nav>
+        <ul class="navbar-links">
+          <li><a href="#">Inicio</a></li>
+          <li><a href="#">Ver Especies</a></li>
+          <li><a href="#" class="nav-button">Ver Ecosistemas</a></li>
+          <li><a href="#" class="nav-button active">Registrar Ecosistema</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Contenido -->
+  <div class="container">
+    <h2>Registrar Nuevo Ecosistema</h2>
+    <p>Este es mi avance para el registro de ecosistemas. La lógica es 100% frontend.</p>
+
+    <form id="ecosystem-form">
+      <div class="form-group">
+        <label for="nombre">Nombre del Ecosistema</label>
+        <input type="text" id="nombre" name="nombre" required />
+      </div>
+
+      <div class="form-group">
+        <label for="clasificacion">Clasificación</label>
+        <select id="clasificacion" name="clasificacion" required>
+          <option value="">-- Seleccione --</option>
+          <option value="bosque">Bosque</option>
+          <option value="lago">Lago</option>
+          <option value="playa">Playa</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="lugar">Lugar / Ubicación</label>
+        <input type="text" id="lugar" name="lugar" placeholder="Provincia / Cantón / Referencia" />
+      </div>
+
+      <div class="form-group">
+        <label for="descripcion">Descripción</label>
+        <textarea id="descripcion" name="descripcion" rows="4"></textarea>
+      </div>
+
+      <div class="form-group">
+        <label for="imagen">Imagen del Ecosistema</label>
+        <input type="file" id="imagen" name="imagen" accept="image/png, image/jpeg, image/webp" />
+      </div>
+
+      <div id="image-preview-container">
+        <img src="" alt="Previsualización" id="image-preview" class="hidden" />
+        <span id="image-preview-placeholder">Sin imagen seleccionada</span>
+      </div>
+
+      <button type="submit" class="submit-btn">Registrar Ecosistema</button>
+    </form>
+  </div>
+
+  <script src="public/js/ecosystem.js"></script>
+</body>
+</html>
