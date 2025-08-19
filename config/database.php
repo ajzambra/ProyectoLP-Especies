@@ -13,3 +13,4 @@ class DB {
     return self::$conn;
   }
 }
+

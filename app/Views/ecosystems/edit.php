@@ -1,5 +1,4 @@
 <?php
-
 require_once __DIR__ . '/../../../config/app.php';
 ?>
 
@@ -8,58 +7,136 @@ require_once __DIR__ . '/../../../config/app.php';
 <head>
   <meta charset="UTF-8" />
   <title>Editar Ecosistema</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f6f8;
+      margin: 0;
+      padding: 0;
+    }
+    .container {
+      max-width: 700px;
+      margin: 50px auto;
+      background: #fff;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+    h1 {
+      text-align: center;
+      color: #2c3e50;
+    }
+    label {
+      display: block;
+      margin-top: 15px;
+      font-weight: bold;
+      color: #34495e;
+    }
+    input[type="text"],
+    textarea,
+    select {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      box-sizing: border-box;
+    }
+    textarea {
+      resize: vertical;
+    }
+    .current-img {
+      margin-top: 10px;
+      border: 1px solid #ccc;
+      padding: 5px;
+      max-width: 300px;
+      display: block;
+    }
+    .error-list {
+      background: #ffe6e6;
+      color: #c0392b;
+      padding: 10px;
+      border-radius: 5px;
+    }
+    .success-msg {
+      background: #e0f8e9;
+      color: #27ae60;
+      padding: 10px;
+      border-radius: 5px;
+    }
+    button {
+      margin-top: 20px;
+      padding: 12px 25px;
+      border: none;
+      background: #27ae60;
+      color: #fff;
+      font-size: 16px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #219150;
+    }
+    .back-link {
+      display: block;
+      margin-top: 20px;
+      text-align: center;
+      text-decoration: none;
+      color: #2980b9;
+    }
+    .back-link:hover {
+      text-decoration: underline;
+    }
+  </style>
 </head>
 <body>
-  <h1>Editar Ecosistema</h1>
+  <div class="container">
+    <h1>Editar Ecosistema</h1>
 
-  <?php if (!empty($success)): ?>
-    <div style="color:green"><?= htmlspecialchars($success) ?></div>
-  <?php endif; ?>
+    <?php if (!empty($success)): ?>
+      <div class="success-msg"><?= htmlspecialchars($success) ?></div>
+    <?php endif; ?>
 
-  <?php if (!empty($errores)): ?>
-    <ul style="color:red">
-      <?php foreach ($errores as $e): ?>
-        <li><?= htmlspecialchars($e) ?></li>
-      <?php endforeach; ?>
-    </ul>
-  <?php endif; ?>
+    <?php if (!empty($errores)): ?>
+      <ul class="error-list">
+        <?php foreach ($errores as $e): ?>
+          <li><?= htmlspecialchars($e) ?></li>
+        <?php endforeach; ?>
+      </ul>
+    <?php endif; ?>
 
-  <form method="POST" action="<?= BASE_URL ?>/api/ecosystems.php?action=update&id=<?= htmlspecialchars($ecosistema['id']) ?>" enctype="multipart/form-data">
-    <label>Nombre:<br>
+    <form method="POST" action="<?= BASE_URL ?>/api/ecosystems.php?action=update&id=<?= htmlspecialchars($ecosistema['id']) ?>" enctype="multipart/form-data">
+      <label>Nombre:</label>
       <input type="text" name="nombre" maxlength="80" required value="<?= htmlspecialchars($ecosistema['nombre']) ?>">
-    </label><br><br>
 
-    <label>Descripción:<br>
+      <label>Descripción:</label>
       <textarea name="descripcion" rows="4"><?= htmlspecialchars($ecosistema['descripcion']) ?></textarea>
-    </label><br><br>
 
-    <label>Clasificación:<br>
+      <label>Clasificación:</label>
       <select name="clasificacion" required>
         <option value="bosque" <?= $ecosistema['clasificacion'] === 'bosque' ? 'selected' : '' ?>>Bosque</option>
         <option value="lago" <?= $ecosistema['clasificacion'] === 'lago' ? 'selected' : '' ?>>Lago</option>
         <option value="playa" <?= $ecosistema['clasificacion'] === 'playa' ? 'selected' : '' ?>>Playa</option>
       </select>
-    </label><br><br>
 
-    <label>Lugar:<br>
+      <label>Lugar:</label>
       <input type="text" name="lugar" maxlength="120" placeholder="Provincia / Cantón / Referencia" value="<?= htmlspecialchars($ecosistema['lugar']) ?>">
-    </label><br><br>
 
-    <label>Foto actual:<br>
+      <label>Foto actual:</label>
       <?php if (!empty($ecosistema['imagen_url'])): ?>
-        <img src="<?= BASE_URL . '/' . htmlspecialchars($ecosistema['imagen_url']) ?>" alt="Foto ecosistema" style="max-width:200px;">
+        <img src="<?= BASE_URL . '/' . htmlspecialchars($ecosistema['imagen_url']) ?>" alt="Foto ecosistema" class="current-img">
       <?php else: ?>
         <em>No hay imagen</em>
       <?php endif; ?>
-    </label><br><br>
 
-    <label>Subir nueva foto (jpg/png/webp, máx 2MB):<br>
+      <label>Subir nueva foto (jpg/png/webp, máx 2MB):</label>
       <input type="file" name="imagen" accept="image/*">
-    </label><br><br>
 
-    <button type="submit">Actualizar</button>
-  </form>
+      <button type="submit">Actualizar Ecosistema</button>
+    </form>
 
-  <p><a href="<?= BASE_URL ?>/app/Views/ecosystems/index.php">Volver al listado</a></p>
+    <a class="back-link" href="<?= BASE_URL ?>/app/Views/ecosystems/index.php">← Volver al listado</a>
+  </div>
 </body>
 </html>
+

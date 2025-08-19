@@ -22,3 +22,4 @@ if ($method === 'POST') {
   header('Content-Type: application/json; charset=utf-8');
   echo json_encode(['error' => 'Método no permitido. Usa POST o GET.']);
 }
+
