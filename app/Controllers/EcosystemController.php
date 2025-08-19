@@ -21,7 +21,7 @@ class EcosystemController {
     if ($lugar !== '' && mb_strlen($lugar) > 120)     $errores[] = 'El lugar no debe superar 120 caracteres';
 
     // 3) Upload (opcional)
-    $imagenRel = null; // ruta relativa a guardar en BD
+    $imagenRel = null; 
     if (!empty($_FILES['imagen']['name'])) {
       if ($_FILES['imagen']['error'] !== UPLOAD_ERR_OK) {
         $errores[] = 'Error al subir la imagen';
@@ -40,7 +40,6 @@ class EcosystemController {
         ];
         if (!isset($mimesOk[$mime])) $errores[] = 'Formato de imagen no permitido (solo JPG, PNG, WEBP)';
 
-        // Si todo bien, mover al directorio /uploads/ecosystems
         if (!$errores) {
           $ext   = $mimesOk[$mime];
           $fname = 'eco_' . uniqid() . '.' . $ext;
@@ -83,6 +82,11 @@ class EcosystemController {
       header('Location: ' . BASE_URL . '/app/Views/ecosystems/index.php');
       exit;
     }
+
+    $success = $_SESSION['success'] ?? null;
+    $errores = $_SESSION['errores'] ?? [];
+    unset($_SESSION['success'], $_SESSION['errores']);
+
     require_once __DIR__ . '/../views/ecosystems/edit.php';
   }
 
@@ -134,7 +138,7 @@ class EcosystemController {
 
     if ($errores) {
       $_SESSION['errores'] = $errores;
-      header("Location: " . BASE_URL . "/app/Views/ecosystems/edit.php?id=$id");
+      header("Location: " . BASE_URL . "/api/ecosystems.php?action=edit&id=$id");
       exit;
     }
 
@@ -143,11 +147,13 @@ class EcosystemController {
       $_SESSION['success'] = "Ecosistema actualizado correctamente.";
     } catch (Throwable $e) {
       $_SESSION['errores'] = ['Error al actualizar: ' . $e->getMessage()];
-      header("Location: " . BASE_URL . "/app/Views/ecosystems/edit.php?id=$id");
+      header("Location: " . BASE_URL . "/api/ecosystems.php?action=edit&id=$id");
       exit;
     }
 
-    header('Location: ' . BASE_URL . '/app/Views/ecosystems/index.php');
+    header('Location: ' . BASE_URL . "/api/ecosystems.php?action=edit&id=$id");
     exit;
   }
 }
+
+
