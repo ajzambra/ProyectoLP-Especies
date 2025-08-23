@@ -90,6 +90,27 @@ class EcosystemController {
     require_once __DIR__ . '/../views/ecosystems/edit.php';
   }
 
+  
+  public static function index(): void {
+    header('Content-Type: application/json; charset=utf-8');
+
+    try {
+      $q = trim($_GET['q'] ?? '');
+      $clas = $_GET['clasificacion'] ?? '';
+
+      $rows = Ecosystem::all([
+        'q' => $q !== '' ? $q : null,
+        'clasificacion' => in_array($clas, ['bosque','lago','playa'], true) ? $clas : null,
+      ]);
+
+      echo json_encode($rows, JSON_UNESCAPED_UNICODE);
+    } catch (Throwable $e) {
+      http_response_code(500);
+      echo json_encode(['error' => 'Error al listar', 'detail' => $e->getMessage()]);
+    }
+  }
+
+
   public static function update(int $id): void {
     $errores = [];
 
