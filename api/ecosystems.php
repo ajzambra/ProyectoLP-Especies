@@ -13,10 +13,9 @@ if ($method === 'POST') {
   if (isset($_GET['action']) && $_GET['action'] === 'edit' && isset($_GET['id'])) {
     EcosystemController::edit((int)$_GET['id']);
   } else {
-    http_response_code(405);
-    header('Content-Type: application/json; charset=utf-8');
-    echo json_encode(['error' => 'Método GET no permitido.']);
+    EcosystemController::index();   
   }
+
 } else {
   http_response_code(405);
   header('Content-Type: application/json; charset=utf-8');
