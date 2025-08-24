@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sistema de Biodiversidad</title>
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    background: linear-gradient(135deg, #0b5a44 0%, #148066 100%);
+    color: #333;
+    line-height: 1.6;
+}
+
+.navbar {
+    background-color: #005A3B;
+    color: #fff;
+    padding: 1rem 2rem;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.navbar-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.navbar-brand {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #fff;
+    text-decoration: none;
+}
+
+.navbar-links {
+    list-style: none;
+    display: flex;
+    gap: 2rem;
+    align-items: center;
+}
+
+.navbar-links a {
+    color: #fff;
+    text-decoration: none;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    transition: all 0.3s ease;
+}
+
+.navbar-links a:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+.nav-button {
+    background-color: #fff;
+    color: #005A3B !important;
+    font-weight: bold;
+    padding: 0.75rem 1.5rem !important;
+}
+
+.nav-button:hover {
+    background-color: #e6f0e6 !important;
+    transform: translateY(-2px);
+}
+
+.hero {
+    background: url('https://images.unsplash.com/photo-1418065460487-3e41a6c84dc5?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80') no-repeat center center/cover;
+    height: 70vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: white;
+    position: relative;
+}
+
+.hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+}
+
+.hero-content {
+    position: relative;
+    z-index: 1;
+    max-width: 800px;
+    padding: 2rem;
+}
+
+.hero h1 {
+    font-size: 3.5rem;
+    margin-bottom: 1rem;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+}
+
+.hero p {
+    font-size: 1.3rem;
+    margin-bottom: 2rem;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+}
+
+.features {
+    padding: 4rem 2rem;
+    background-color: #f8f9fa;
+}
+
+.features-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+}
+
+.feature-card {
+    background: white;
+    padding: 2rem;
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    text-align: center;
+    transition: transform 0.3s ease;
+}
+
+.feature-card:hover {
+    transform: translateY(-5px);
+}
+
+.feature-icon {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    color: #005A3B;
+}
+
+.feature-card h3 {
+    color: #005A3B;
+    margin-bottom: 1rem;
+}
+
+.cta-buttons {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    margin-top: 1rem;
+}
+
+.btn {
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: all 0.3s ease;
+    display: inline-block;
+}
+
+.btn-primary {
+    background-color: #005A3B;
+    color: white;
+}
+
+.btn-primary:hover {
+    background-color: #00402a;
+    transform: translateY(-2px);
+}
+
+.btn-secondary {
+    background-color: #6c757d;
+    color: white;
+}
+
+.btn-secondary:hover {
+    background-color: #5a6268;
+    transform: translateY(-2px);
+}
+
+.stats {
+    background-color: #005A3B;
+    color: white;
+    padding: 3rem 2rem;
+    text-align: center;
+}
+
+.stats-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 2rem;
+}
+
+.stat-item {
+    padding: 1.5rem;
+}
+
+.stat-number {
+    font-size: 2.5rem;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+}
+
+footer {
+    background-color: #003020;
+    color: white;
+    text-align: center;
+    padding: 2rem;
+    margin-top: 2rem;
+}
+
+@media (max-width: 768px) {
+    .navbar-container {
+    flex-direction: column;
+    gap: 1rem;
+    }
+    
+    .navbar-links {
+    flex-direction: column;
+    gap: 1rem;
+    }
+    
+    .hero h1 {
+    font-size: 2.5rem;
+    }
+    
+    .cta-buttons {
+    flex-direction: column;
+    }
+}
+</style>
+</head>
+<body>
+<!-- Navbar -->
+<nav class="navbar">
+<div class="navbar-container">
+    <a href="index.html" class="navbar-brand">🌿 Biodiversidad</a>
+    <ul class="navbar-links">
+    <li><a href="index.html">Inicio</a></li>
+    <li><a href="app/Views/species/index.php">Ver Especies</a></li>
+    <li><a href="app/Views/ecosystems/index.php">Ver Ecosistemas</a></li>
+    <li><a href="registrar-especie.php" class="nav-button">Registrar Especie</a></li>
+    <li><a href="registrar-ecosistema.html" class="nav-button">Registrar Ecosistema</a></li>
+    </ul>
+</div>
+</nav>
+
+<!-- Hero Section -->
+<section class="hero">
+<div class="hero-content">
+    <h1>Sistema de Gestión de Biodiversidad</h1>
+    <p>Gestiona y monitorea la diversidad de especies y ecosistemas de manera eficiente</p>
+    <div class="cta-buttons">
+    <a href="registrar-especie.php" class="btn btn-primary">Registrar Especie</a>
+    <a href="registrar-ecosistema.html" class="btn btn-primary">Registrar Ecosistema</a>
+    </div>
+</div>
+</section>
+
+<!-- Features Section -->
+<section class="features">
+<div class="features-container">
+    <div class="feature-card">
+    <div class="feature-icon">🐾</div>
+    <h3>Gestión de Especies</h3>
+    <p>Registra y gestiona información detallada de todas las especies de flora y fauna</p>
+    <div class="cta-buttons">
+        <a href="app/Views/species/index.php" class="btn btn-secondary">Ver Especies</a>
+        <a href="registrar-especie.php" class="btn btn-primary">Registrar Nueva</a>
+    </div>
+    </div>
+    
+    <div class="feature-card">
+    <div class="feature-icon">🌳</div>
+    <h3>Gestión de Ecosistemas</h3>
+    <p>Administra los diferentes ecosistemas y su relación con las especies</p>
+    <div class="cta-buttons">
+        <a href="app/Views/ecosystems/index.php" class="btn btn-secondary">Ver Ecosistemas</a>
+        <a href="registrar-ecosistema.html" class="btn btn-primary">Registrar Nuevo</a>
+    </div>
+    </div>
+    
+    <div class="feature-card">
+    <div class="feature-icon">📊</div>
+    <h3>Reportes y Análisis</h3>
+    <p>Genera reportes detallados y análisis de la biodiversidad registrada</p>
+    <div class="cta-buttons">
+        <a href="#" class="btn btn-secondary">Ver Reportes</a>
+        <a href="#" class="btn btn-primary">Generar Reporte</a>
+    </div>
+    </div>
+</div>
+</section>
+
+<!-- Stats Section -->
+<section class="stats">
+<div class="stats-container">
+    <div class="stat-item">
+    <div class="stat-number" id="species-count">0</div>
+    <div class="stat-label">Especies Registradas</div>
+    </div>
+    <div class="stat-item">
+    <div class="stat-number" id="ecosystems-count">0</div>
+    <div class="stat-label">Ecosistemas Registrados</div>
+    </div>
+    <div class="stat-item">
+    <div class="stat-number" id="flora-count">0</div>
+    <div class="stat-label">Especies de Flora</div>
+    </div>
+    <div class="stat-item">
+    <div class="stat-number" id="fauna-count">0</div>
+    <div class="stat-label">Especies de Fauna</div>
+    </div>
+</div>
+</section>
+
+<footer>
+<p>Sistema de Gestión de Biodiversidad &copy; 2024</p>
+</footer>
+
+<script>
+// Simular estadísticas (en un sistema real, estos datos vendrían de una API)
+document.addEventListener('DOMContentLoaded', function() {
+    // Animación de contadores
+    function animateCounter(element, target) {
+    let current = 0;
+    const increment = target / 100;
+    const timer = setInterval(() => {
+        current += increment;
+        if (current >= target) {
+        current = target;
+        clearInterval(timer);
+        }
+        element.textContent = Math.round(current);
+    }, 20);
+    }
+    
+    // Simular datos
+    animateCounter(document.getElementById('species-count'), 24);
+    animateCounter(document.getElementById('ecosystems-count'), 8);
+    animateCounter(document.getElementById('flora-count'), 12);
+    animateCounter(document.getElementById('fauna-count'), 12);
+});
+</script>
+</body>
+</html>
