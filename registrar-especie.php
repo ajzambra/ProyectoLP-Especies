@@ -62,7 +62,6 @@
 </head>
 <body>
 
-  <!-- Navbar Completa -->
   <header class="navbar">
     <div class="navbar-container">
       <a href="/ProyectoLP-Especies/index.html" class="navbar-brand">🌿 Biodiversidad</a>
@@ -72,7 +71,7 @@
           <li><a href="/ProyectoLP-Especies/app/Views/species/index.php">Ver Especies</a></li>
           <li><a href="/ProyectoLP-Especies/app/Views/ecosystems/index.php">Ver Ecosistemas</a></li>
           <li><a href="/ProyectoLP-Especies/registrar-especie.php" class="nav-button active">Registrar Especie</a></li>
-          <li><a href="/ProyectoLP-Especies/registrar-ecosistema.html" class="nav-button">Registrar Ecosistema</a></li>
+          <li><a href="/ProyectoLP-Especies/registrar-ecosistema.php">Registrar Ecosistema</a></li>
         </ul>
       </nav>
     </div>
@@ -82,7 +81,6 @@
     <h2>Registrar Nueva Especie</h2>
     <p>Complete el formulario para registrar una nueva especie en el sistema.</p>
     
-    <!-- FORM CORREGIDO: -->
     <form id="species-form" method="POST" action="/ProyectoLP-Especies/api/species.php" enctype="multipart/form-data">
     <input type="hidden" name="action" value="store">
 

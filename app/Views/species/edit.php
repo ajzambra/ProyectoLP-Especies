@@ -3,6 +3,7 @@ require_once __DIR__ . '/../../../config/app.php';
 require_once __DIR__ . '/../../Models/Species.php';
 require_once __DIR__ . '/../../Models/Ecosystem.php';
 
+
 if (!isset($_GET['id'])) {
     header('Location: ' . BASE_URL . '/app/Views/species/index.php');
     exit;
@@ -108,7 +109,6 @@ unset($_SESSION['success'], $_SESSION['errores']);
     </style>
 </head>
 <body>
-    <!-- Navbar Completa -->
     <header class="navbar">
         <div class="navbar-container">
             <a href="<?= BASE_URL ?>/index.html" class="navbar-brand">🌿 Biodiversidad</a>

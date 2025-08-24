@@ -5,8 +5,19 @@ require_once __DIR__ . '/../../Models/Ecosystem.php';
 
 $db = DB::conn();
 $speciesModel = new Species($db);
-$stmt = $speciesModel->getAll();
+
+$filters = [
+    'tipo' => $_GET['tipo'] ?? '',
+    'id_ecosistema' => $_GET['ecosistema'] ?? '',
+    'nombre' => $_GET['nombre'] ?? ''
+];
+
+$stmt = $speciesModel->getFiltered($filters);
 $species_list = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+$ecosystemModel = new Ecosystem($db);
+$ecosystems_stmt = $ecosystemModel->getAll();
+$ecosystems = $ecosystems_stmt->fetchAll(PDO::FETCH_ASSOC);
 
 $success = $_SESSION['success'] ?? null;
 $errores = $_SESSION['errores'] ?? [];
@@ -92,6 +103,10 @@ body {
 .btn-action { 
     margin: 5px; 
 }
+.filter-card {
+    background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+    border: 1px solid #90caf9;
+}
 </style>
 </head>
 <body>
@@ -104,7 +119,7 @@ body {
         <li><a href="<?= BASE_URL ?>/app/Views/species/index.php" class="nav-button active">Ver Especies</a></li>
         <li><a href="<?= BASE_URL ?>/app/Views/ecosystems/index.php">Ver Ecosistemas</a></li>
         <li><a href="<?= BASE_URL ?>/registrar-especie.php">Registrar Especie</a></li>
-        <li><a href="<?= BASE_URL ?>/registrar-ecosistema.html">Registrar Ecosistema</a></li>
+        <li><a href="<?= BASE_URL ?>/registrar-ecosistema.php">Registrar Ecosistema</a></li>
     </ul>
     </nav>
 </div>
@@ -127,13 +142,59 @@ body {
     </div>
 <?php endif; ?>
 
-<a href="<?= BASE_URL ?>/registrar-especie.html" class="btn btn-primary mb-4">Registrar Nueva Especie</a>
+<div class="card mb-4 filter-card">
+    <div class="card-header bg-primary text-white">
+        <h5 class="mb-0">🔍 Filtros de Búsqueda</h5>
+    </div>
+    <div class="card-body">
+        <form method="GET" action="" class="row g-3">
+            <div class="col-md-3">
+                <label for="nombre" class="form-label">Nombre</label>
+                <input type="text" class="form-control" id="nombre" name="nombre" 
+                       value="<?= htmlspecialchars($_GET['nombre'] ?? '') ?>" 
+                       placeholder="Buscar por nombre">
+            </div>
+            
+            <div class="col-md-3">
+                <label for="tipo" class="form-label">Tipo</label>
+                <select class="form-control" id="tipo" name="tipo">
+                    <option value="">Todos los tipos</option>
+                    <option value="Fauna" <?= ($_GET['tipo'] ?? '') === 'Fauna' ? 'selected' : '' ?>>Fauna</option>
+                    <option value="Flora" <?= ($_GET['tipo'] ?? '') === 'Flora' ? 'selected' : '' ?>>Flora</option>
+                </select>
+            </div>
+            
+            <div class="col-md-3">
+                <label for="ecosistema" class="form-label">Ecosistema</label>
+                <select class="form-control" id="ecosistema" name="ecosistema">
+                    <option value="">Todos los ecosistemas</option>
+                    <?php foreach ($ecosystems as $eco): ?>
+                        <option value="<?= $eco['id'] ?>" 
+                            <?= ($_GET['ecosistema'] ?? '') == $eco['id'] ? 'selected' : '' ?>>
+                            <?= htmlspecialchars($eco['nombre']) ?>
+                        </option>
+                    <?php endforeach; ?>
+                </select>
+            </div>
+            
+            <div class="col-md-3">
+                <label class="form-label">&nbsp;</label>
+                <div class="d-grid gap-2">
+                    <button type="submit" class="btn btn-primary">Filtrar</button>
+                    <a href="<?= BASE_URL ?>/app/Views/species/index.php" class="btn btn-secondary">Limpiar</a>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<a href="<?= BASE_URL ?>/registrar-especie.php" class="btn btn-primary mb-4">Registrar Nueva Especie</a>
 
 <div class="row">
     <?php if (empty($species_list)): ?>
     <div class="col-12">
         <div class="alert alert-info">
-        No hay especies registradas. <a href="<?= BASE_URL ?>/registrar-especie.html">Registrar la primera</a>.
+        No hay especies registradas. <a href="<?= BASE_URL ?>/registrar-especie.php">Registrar la primera</a>.
         </div>
     </div>
     <?php else: ?>
@@ -156,16 +217,13 @@ body {
                 <strong>Descripción:</strong> <?= !empty($specie['descripcion']) ? htmlspecialchars(substr($specie['descripcion'], 0, 100)) . '...' : 'Sin descripción' ?>
             </p>
             
-
             <div class="d-flex justify-content-between">
                 <a href="<?= BASE_URL ?>/api/species.php?action=edit&id=<?= $specie['id_especie'] ?>" class="btn btn-warning btn-action">Editar</a>
-
-            <form action="<?= BASE_URL ?>/app/Views/species/delete.php" method="POST" onsubmit="return confirm('¿Eliminar esta especie?');">
-                <input type="hidden" name="id_especie" value="<?= $specie['id_especie'] ?>">
-                <button type="submit" class="btn btn-danger btn-action">Eliminar</button>
-            </form>
+                <form action="<?= BASE_URL ?>/app/Views/species/delete.php" method="POST" onsubmit="return confirm('¿Eliminar esta especie?');">
+                    <input type="hidden" name="id_especie" value="<?= $specie['id_especie'] ?>">
+                    <button type="submit" class="btn btn-danger btn-action">Eliminar</button>
+                </form>
             </div>
-
             </div>
         </div>
         </div>
