@@ -29,4 +29,5 @@
    Debe mostrar tarjetas con nombre, clasificación y lugar.  
 8. Prueba de escritura (crear especie)  
    Abre el formulario para crear ecosistemas:  
-   [http://localhost/PROYECTOLP-ESPECIES/registrar-especie.html](http://localhost/PROYECTOLP-ESPECIES/registrar-especie.html)  
+   [http://localhost/ProyectoLP-Especies/frontend/registrar-especie.html](http://localhost/ProyectoLP-Especies/frontend/registrar-especie.html)
+  
