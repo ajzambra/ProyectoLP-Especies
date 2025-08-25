@@ -3,43 +3,65 @@ require_once __DIR__ . '/../app/controllers/EcosystemController.php';
 require_once __DIR__ . '/../app/models/Ecosystem.php';
 
 $method = $_SERVER['REQUEST_METHOD'];
-$json = isset($_GET['json']) && $_GET['json'] == 1;
+$json = $_GET['json'] ?? 0; // si viene ?json=1 devuelve JSON
 
-function jsonError($msg, $code = 400) {
+function jsonError($msg, $code=400) {
     http_response_code($code);
     header('Content-Type: application/json; charset=utf-8');
-    echo json_encode(['error' => $msg]);
+    echo json_encode(['error'=>$msg]);
     exit;
 }
 
-if ($method === 'POST') {
-    if (isset($_GET['action']) && $_GET['action'] === 'update' && isset($_GET['id'])) {
-        EcosystemController::update((int)$_GET['id']);
-    } elseif (isset($_GET['action']) && $_GET['action'] === 'delete' && isset($_POST['id'])) {
-        EcosystemController::delete((int)$_POST['id']);
-    } else {
-        EcosystemController::store();
+if($method === 'POST'){
+
+    if(isset($_GET['action']) && $_GET['action']==='update' && isset($_GET['id'])){
+        $id = (int)$_GET['id'];
+        if($json){
+            EcosystemController::updateAPI($id, $_POST);
+        } else {
+            // HTML form: hacer redirección
+            EcosystemController::update($id); // esta función hace header('Location: show-ecosystems')
+        }
+        exit;
     }
-} elseif ($method === 'GET') {
-    if ($json) {
+
+
+    if(isset($_GET['action']) && $_GET['action']==='delete' && isset($_POST['id'])){
+        $id = (int)$_POST['id'];
+        if($json){
+            EcosystemController::deleteAPI($id);
+        } else {
+            EcosystemController::delete($id); // función que hace header('Location: show-ecosystems')
+        }
+        exit;
+    }
+
+
+    EcosystemController::store();
+    exit;
+}
+
+if($method === 'GET'){
+    if($json){
         header('Content-Type: application/json; charset=utf-8');
-
         $filters = [
-            'clasificacion' => $_GET['clasificacion'] ?? '',
-            'nombre' => $_GET['nombre'] ?? '',
-            'lugar' => $_GET['lugar'] ?? ''
+            'clasificacion'=>$_GET['clasificacion']??'',
+            'nombre'=>$_GET['nombre']??'',
+            'lugar'=>$_GET['lugar']??''
         ];
-
         $ecosistemas = Ecosystem::getFiltered($filters)->fetchAll(PDO::FETCH_ASSOC);
         echo json_encode($ecosistemas);
-
-    } else {
-        if (isset($_GET['action']) && $_GET['action'] === 'edit' && isset($_GET['id'])) {
-            EcosystemController::edit((int)$_GET['id']);
-        } else {
-            EcosystemController::index();   
-        }
+        exit;
     }
-} else {
-    jsonError('Método no permitido. Usa POST o GET.', 405);
+
+    if(isset($_GET['action']) && $_GET['action']==='edit' && isset($_GET['id'])){
+        $id = (int)$_GET['id'];
+        EcosystemController::edit($id); // carga edit.php
+        exit;
+    }
+
+    EcosystemController::index(); // lista ecosistemas
+    exit;
 }
+
+jsonError("Método no permitido",405);

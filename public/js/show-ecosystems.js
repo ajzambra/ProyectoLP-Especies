@@ -10,6 +10,7 @@ async function fetchEcosystems(filters = {}) {
         Object.keys(filters).forEach(key => {
             if (filters[key]) url.searchParams.append(key, filters[key]);
         });
+
         const res = await fetch(url);
         if (!res.ok) throw new Error('Error al cargar los ecosistemas');
         const data = await res.json();
@@ -29,40 +30,47 @@ function renderEcosystems(ecosystems) {
 
     ecosystemList.innerHTML = ecosystems.map(eco => `
         <div class="col-md-4">
-        <div class="card">
-            ${eco.imagen_url ? `<img src="${eco.imagen_url}" class="card-img-top" alt="${eco.nombre}">`
-            : `<div class="card-img-top bg-secondary text-white d-flex align-items-center justify-content-center"><span>Sin imagen</span></div>`}
-            <div class="card-body">
-                <h5 class="card-title">${eco.nombre}</h5>
-                <p class="card-text">
-                    <strong>Clasificación:</strong> ${eco.clasificacion || 'No especificado'}<br>
-                    <strong>Ubicación:</strong> ${eco.lugar || 'No especificado'}
-                </p>
-                <p class="card-text">
-                    <strong>Descripción:</strong> ${eco.descripcion ? eco.descripcion.substr(0, 100)+'...' : 'Sin descripción'}
-                </p>
-                <div class="d-flex justify-content-between">
-                    <a href="/ProyectoLP-Especies/api/ecosystems.php?action=edit&id=${eco.id}" class="btn btn-warning btn-action">Editar</a>
-                    <button class="btn btn-danger btn-action" onclick="deleteEcosystem(${eco.id})">Eliminar</button>
+            <div class="card">
+                ${eco.imagen_url 
+                    ? `<img src="${eco.imagen_url}" class="card-img-top" alt="${eco.nombre}">`
+                    : `<div class="card-img-top bg-secondary text-white d-flex align-items-center justify-content-center"><span>Sin imagen</span></div>`}
+                <div class="card-body">
+                    <h5 class="card-title">${eco.nombre}</h5>
+                    <p class="card-text">
+                        <strong>Clasificación:</strong> ${eco.clasificacion || 'No especificado'}<br>
+                        <strong>Ubicación:</strong> ${eco.lugar || 'No especificado'}
+                    </p>
+                    <p class="card-text">
+                        <strong>Descripción:</strong> ${eco.descripcion ? eco.descripcion.substr(0, 100)+'...' : 'Sin descripción'}
+                    </p>
+                    <div class="d-flex justify-content-between">
+                        <a href="/ProyectoLP-Especies/app/Views/ecosystems/edit.php?id=${eco.id}" class="btn btn-warning btn-action">Editar</a>
+                        <button class="btn btn-danger btn-action" onclick="deleteEcosystem(${eco.id})">Eliminar</button>
+                    </div>
                 </div>
             </div>
-        </div>
         </div>
     `).join('');
 }
 
 async function deleteEcosystem(id) {
     if (!confirm('¿Estás seguro de eliminar este ecosistema?')) return;
+
     try {
-        const formData = new FormData();
-        formData.append('id', id);
-        const res = await fetch('/ProyectoLP-Especies/api/ecosystems.php?action=delete', {
-            method: 'POST',
-            body: formData
+        const res = await fetch(`/ProyectoLP-Especies/api/ecosystems.php?action=delete&id=${id}`, {
+            method: 'POST'
         });
-        if (!res.ok) throw new Error('No se pudo eliminar el ecosistema');
-        // recargar lista
-        loadEcosystems();
+
+        if (!res.ok) {
+            const text = await res.text(); 
+            throw new Error('No se pudo eliminar el ecosistema: ' + text);
+        }
+
+        const data = await res.json();
+        if (data.error) throw new Error(data.error);
+
+        alert(data.success || 'Ecosistema eliminado');
+        loadEcosystems(); // recarga lista
     } catch(err) {
         alert(err.message);
     }

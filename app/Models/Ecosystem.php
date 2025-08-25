@@ -68,4 +68,3 @@ class Ecosystem {
     return $stmt;
 }
 }
-
