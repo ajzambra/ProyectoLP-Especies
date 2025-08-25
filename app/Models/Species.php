@@ -16,33 +16,29 @@ class Species {
     public $fecha_actualizacion;
     public $nombre_ecosistema;
 
-    //Conexion para la base de datos
+    // Conexion para la base de datos
     private $conn;
     private $table_name = "especies";
-
 
     public function __construct($db) {
         $this->conn = $db;
     }
 
     // -----------------------------------------------------------------
-    // --- MÉTODOS ASIGNADOS A ANDRÉS ZAMBRANO ---
+    // --- MÉTODOS EXISTENTES ---
     // -----------------------------------------------------------------
 
     /**
      * OBTENER TODOS los registros de especies.
-     * Este método se usa en la página principal para listar todas las especies.
-     * Realiza un JOIN con la tabla 'ecosistemas' para obtener también el nombre del hábitat.
-     * * @return PDOStatement El resultado de la consulta.
      */
     public function getAll() {
-        // Consulta SQL para seleccionar los campos necesarios
         $query = "SELECT 
                     e.id_especie, 
                     e.nombre_comun, 
                     e.descripcion,
                     e.tipo, 
                     e.imagen_url, 
+                    e.id_ecosistema,
                     eco.nombre as nombre_ecosistema
                   FROM 
                     " . $this->table_name . " e
@@ -51,12 +47,8 @@ class Species {
                   ORDER BY 
                     e.fecha_creacion DESC";
 
-        // Preparar la consulta
         $stmt = $this->conn->prepare($query);
-
-        // Ejecutar la consulta
         $stmt->execute();
-
         return $stmt;
     }
 
@@ -83,11 +75,8 @@ class Species {
 
     /**
      * CREAR un nuevo registro de especie en la base de datos.
-     * Este método se usa para procesar los datos del formulario de registro.
-     * * @return bool Devuelve true si la creación fue exitosa, de lo contrario false.
      */
     public function create() {
-        // Consulta SQL para insertar un nuevo registro
         $query = "INSERT INTO " . $this->table_name . " SET
                     id_ecosistema=:id_ecosistema, 
                     nombre_comun=:nombre_comun, 
@@ -95,35 +84,113 @@ class Species {
                     tipo=:tipo, 
                     imagen_url=:imagen_url";
 
-        // Preparar la consulta
         $stmt = $this->conn->prepare($query);
 
-        // --- Sanitizar los datos ---
-        // Se limpian los datos para prevenir ataques XSS o inyecciones de código.
         $this->nombre_comun = htmlspecialchars(strip_tags($this->nombre_comun));
         $this->descripcion = htmlspecialchars(strip_tags($this->descripcion));
         $this->tipo = htmlspecialchars(strip_tags($this->tipo));
         $this->id_ecosistema = htmlspecialchars(strip_tags($this->id_ecosistema));
         $this->imagen_url = htmlspecialchars(strip_tags($this->imagen_url));
 
-        // --- Vincular los valores con la consulta (Binding) ---
-        // Esto previene la inyección de SQL.
         $stmt->bindParam(":nombre_comun", $this->nombre_comun);
         $stmt->bindParam(":descripcion", $this->descripcion);
         $stmt->bindParam(":tipo", $this->tipo);
         $stmt->bindParam(":id_ecosistema", $this->id_ecosistema);
         $stmt->bindParam(":imagen_url", $this->imagen_url);
 
-        // Ejecutar la consulta
-        if ($stmt->execute()) {
-            return true;
-        }
-
-        return false;
+        return $stmt->execute();
     }
 
     // -----------------------------------------------------------------
-    // --- MÉTODOS ASIGNADOS A ROBERTO BARRIOS --- Requerimiento avance 2
-    // -----------------------------------------------------------------
+    // --- NUEVOS MeTODOS (AGREGADOS) ---
+    // ----------------------------------------------------------------- 
+    /**
+     * ACTUALIZAR una especie
+     */
+    public function update(): bool {
+        $query = "UPDATE " . $this->table_name . " SET 
+                    id_ecosistema=:id_ecosistema, 
+                    nombre_comun=:nombre_comun, 
+                    descripcion=:descripcion, 
+                    tipo=:tipo, 
+                    imagen_url=:imagen_url,
+                    fecha_actualizacion = NOW()
+                  WHERE id_especie=:id_especie";
+
+        $stmt = $this->conn->prepare($query);
+
+        $stmt->bindParam(":id_especie", $this->id_especie);
+        $stmt->bindParam(":nombre_comun", $this->nombre_comun);
+        $stmt->bindParam(":descripcion", $this->descripcion);
+        $stmt->bindParam(":tipo", $this->tipo);
+        $stmt->bindParam(":id_ecosistema", $this->id_ecosistema);
+        $stmt->bindParam(":imagen_url", $this->imagen_url);
+
+        return $stmt->execute();
+    }
+
+    /**
+     * ELIMINAR una especie
+     */
+    public function delete(int $id): bool {
+        $query = "DELETE FROM " . $this->table_name . " WHERE id_especie = ?";
+        $stmt = $this->conn->prepare($query);
+        return $stmt->execute([$id]);
+    }
+
+    /**
+     * OBTENER todas las especies (para API)
+     */
+    public function getAllAPI() {
+        $query = "SELECT 
+                    id_especie, 
+                    nombre_comun, 
+                    descripcion,
+                    tipo, 
+                    imagen_url, 
+                    id_ecosistema
+                  FROM " . $this->table_name . " 
+                  ORDER BY fecha_creacion DESC";
+        $stmt = $this->conn->prepare($query);
+        $stmt->execute();
+        return $stmt;
+    }
+
+
+    public function getFiltered($filters = []) {
+    $query = "SELECT 
+                e.id_especie, 
+                e.nombre_comun, 
+                e.descripcion,
+                e.tipo, 
+                e.imagen_url, 
+                e.id_ecosistema,
+                eco.nombre as nombre_ecosistema
+              FROM " . $this->table_name . " e
+              LEFT JOIN ecosistemas eco ON e.id_ecosistema = eco.id
+              WHERE 1=1";
     
+    $params = [];
+    
+    if (!empty($filters['tipo'])) {
+        $query .= " AND e.tipo = ?";
+        $params[] = $filters['tipo'];
+    }
+    
+    if (!empty($filters['id_ecosistema'])) {
+        $query .= " AND e.id_ecosistema = ?";
+        $params[] = $filters['id_ecosistema'];
+    }
+    
+    if (!empty($filters['nombre'])) {
+        $query .= " AND e.nombre_comun LIKE ?";
+        $params[] = '%' . $filters['nombre'] . '%';
+    }
+    
+    $query .= " ORDER BY e.fecha_creacion DESC";
+    
+    $stmt = $this->conn->prepare($query);
+    $stmt->execute($params);
+    return $stmt;
+}
 }

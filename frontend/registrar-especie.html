@@ -1,69 +1,69 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Mi Avance: Registrar Especie</title>
-  <link rel="stylesheet" href="/ProyectoLP-Especies/public/css/registrar-especie.css">
-</head>
-<body>
+  <!DOCTYPE html>
+  <html lang="es">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi Avance: Registrar Especie</title>
+    <link rel="stylesheet" href="/ProyectoLP-Especies/public/css/registrar-especie.css">
+  </head>
+  <body>
 
-    <header class="navbar">
-      <div class="navbar-container">
-          <a href="/ProyectoLP-Especies/index.html" class="navbar-brand">🌿 Biodiversidad</a>
-          <nav>
-              <ul class="navbar-links">
-                  <li><a href="/ProyectoLP-Especies/index.html">Inicio</a></li>
-                  <li><a href="/ProyectoLP-Especies/frontend/catalog.html" class="nav-button active">Ver Especies</a></li>
-                  <li><a href="/ProyectoLP-Especies/frontend/registrar-especie.html">Registrar Especie</a></li>
-              </ul>
-          </nav>
-      </div>
-  </header>
-
-  <div class="container">
-    <h2>Registrar Nueva Especie</h2>
-    
-    <form id="species-form">
-      <div class="form-group">
-        <label for="nombreComun">Nombre de la Especie</label>
-      <input type="text" id="nombreComun" name="nombre_comun" required>
-      </div>
-      <div class="form-group">
-        <label>Tipo de Especie</label>
-        <div class="radio-group">
-            <input type="radio" id="tipoFauna" name="tipo" value="Fauna" checked>
-            <label for="tipoFauna">Fauna</label>
-            <input type="radio" id="tipoFlora" name="tipo" value="Flora">
-            <label for="tipoFlora">Flora</label>
+      <header class="navbar">
+        <div class="navbar-container">
+            <a href="/ProyectoLP-Especies/index.html" class="navbar-brand">🌿 Biodiversidad</a>
+            <nav>
+                <ul class="navbar-links">
+                    <li><a href="/ProyectoLP-Especies/index.html">Inicio</a></li>
+                    <li><a href="/ProyectoLP-Especies/frontend/catalog.html" class="nav-button active">Ver Especies</a></li>
+                    <li><a href="/ProyectoLP-Especies/frontend/registrar-especie.html">Registrar Especie</a></li>
+                </ul>
+            </nav>
         </div>
-      </div>
-      <div class="form-group">
-        <label for="ecosistema">Ecosistema Asociado</label>
-        <select id="ecosistema" name="id_ecosistema" required>
-          <option value="">-- Seleccione un ecosistema --</option>
-        </select> 
-      </div>
-      <div class="form-group">
-        <label for="descripcion">Descripción y Características</label>
-        <textarea id="descripcion" name="descripcion" rows="4"></textarea>
-      </div>
-      <div class="form-group">
-        <label for="fotografia">Imagen de la Especie</label>
-        <input type="file" id="fotografia" name="imagen" accept="image/png, image/jpeg, image/webp">
-      </div>
+    </header>
 
-      <div id="image-preview-container">
-        <img src="" alt="Previsualización de la imagen" id="image-preview" class="hidden">
-        <span id="image-preview-placeholder">Sin imagen seleccionada</span>
-      </div>
-
-      <button type="submit" class="submit-btn">Registrar Especie</button>
+    <div class="container">
+      <h2>Registrar Nueva Especie</h2>
       
-    </form>
-    
-  </div>
+      <form id="species-form">
+        <div class="form-group">
+          <label for="nombreComun">Nombre de la Especie</label>
+        <input type="text" id="nombreComun" name="nombre_comun" required>
+        </div>
+        <div class="form-group">
+          <label>Tipo de Especie</label>
+          <div class="radio-group">
+              <input type="radio" id="tipoFauna" name="tipo" value="Fauna" checked>
+              <label for="tipoFauna">Fauna</label>
+              <input type="radio" id="tipoFlora" name="tipo" value="Flora">
+              <label for="tipoFlora">Flora</label>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="ecosistema">Ecosistema Asociado</label>
+          <select id="ecosistema" name="id_ecosistema" required>
+            <option value="">-- Seleccione un ecosistema --</option>
+          </select> 
+        </div>
+        <div class="form-group">
+          <label for="descripcion">Descripción y Características</label>
+          <textarea id="descripcion" name="descripcion" rows="4"></textarea>
+        </div>
+        <div class="form-group">
+          <label for="fotografia">Imagen de la Especie</label>
+          <input type="file" id="fotografia" name="imagen" accept="image/png, image/jpeg, image/webp">
+        </div>
 
-  <script src="/ProyectoLP-Especies/public/js/main.js"></script>
-</body>
-</html>
+        <div id="image-preview-container">
+          <img src="" alt="Previsualización de la imagen" id="image-preview" class="hidden">
+          <span id="image-preview-placeholder">Sin imagen seleccionada</span>
+        </div>
+
+        <button type="submit" class="submit-btn">Registrar Especie</button>
+        
+      </form>
+      
+    </div>
+
+    <script src="/ProyectoLP-Especies/public/js/main.js"></script>
+  </body>
+  </html>

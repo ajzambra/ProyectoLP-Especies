@@ -31,10 +31,10 @@ function handleSubmit(event: SubmitEvent) {
 }
 
 function cargarEcosistemas() {
-    fetch('/ProyectoLP-Especies/api/ecosystems.php')
+    fetch('/ProyectoLP-Especies/api/ecosystems.php?action=list')
         .then(response => {
             if (!response.ok) throw new Error('No se pudieron cargar los ecosistemas');
-            return response.json();
+            return response.json(); // ahora sí será JSON válido
         })
         .then((data: {id: number, nombre: string}[]) => {
             ecosistemaSelect.innerHTML = '<option value="">-- Seleccione un ecosistema --</option>';
@@ -49,6 +49,7 @@ function cargarEcosistemas() {
             console.error('Error cargando ecosistemas:', error);
         });
 }
+
 
 fotografiaInput.addEventListener('change', () => {
     const file = fotografiaInput.files?.[0];
