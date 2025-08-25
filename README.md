@@ -20,18 +20,19 @@
 5. Para poder ver la página principal probar en:  
    [http://localhost/ProyectoLP-Especies/index.html](http://localhost/ProyectoLP-Especies/index.html)  
 
-6. Prueba de escritura (crear ecosistema)  
+6. Prueba de escritura (crear ecosistema  - FrontEnd estara en la raiz del proyecto)  
    Abre el formulario para crear ecosistemas:  
    [http://localhost/PROYECTOLP-ESPECIES/registrar-ecosistema.html](http://localhost/PROYECTOLP-ESPECIES/registrar-ecosistema.html)  
 
-7. Prueba de lectura (listar ecosistemas)  
+7. Prueba de lectura (listar ecosistemas - FrontEnd estara en la raiz del proyecto)  
    [http://localhost/PROYECTOLP-ESPECIES/ver-ecosistemas.html](http://localhost/PROYECTOLP-ESPECIES/ver-ecosistemas.html)  
-   Debe mostrar tarjetas con nombre, clasificación y lugar.  
-8. Prueba de escritura (crear especie)  
+   Debe mostrar tarjetas con nombre, clasificación y lugar.
+   
+9. Prueba de escritura (crear especie)  
    Abre el formulario para crear ecosistemas:  
    [http://localhost/ProyectoLP-Especies/frontend/registrar-especie.html](http://localhost/ProyectoLP-Especies/frontend/registrar-especie.html)
 
-9. Prueba de escritura (Filtrar y editar ecosistemas)  
+10. Prueba de escritura (Filtrar y editar ecosistemas)  
    Abre el administrador de ecosistemas:  
    [http://localhost/ProyectoLP-Especies/show-ecosystem.html
 
