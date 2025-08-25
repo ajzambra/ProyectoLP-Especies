@@ -27,3 +27,6 @@
 7. Prueba de lectura (listar ecosistemas)  
    [http://localhost/PROYECTOLP-ESPECIES/ver-ecosistemas.html](http://localhost/PROYECTOLP-ESPECIES/ver-ecosistemas.html)  
    Debe mostrar tarjetas con nombre, clasificación y lugar.  
+8. Prueba de escritura (crear especie)  
+   Abre el formulario para crear ecosistemas:  
+   [http://localhost/PROYECTOLP-ESPECIES/registrar-especie.html](http://localhost/PROYECTOLP-ESPECIES/registrar-especie.html)  
