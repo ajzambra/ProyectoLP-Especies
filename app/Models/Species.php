@@ -60,6 +60,27 @@ class Species {
         return $stmt;
     }
 
+    public function find(int $id) {
+    $stmt = $this->conn->prepare("
+        SELECT e.id_especie,
+               e.nombre_comun,
+               e.descripcion,
+               e.tipo,
+               e.imagen_url,
+               e.fecha_creacion,
+               eco.nombre as nombre_ecosistema
+        FROM especies e
+        LEFT JOIN ecosistemas eco ON e.id_ecosistema = eco.id
+        WHERE e.id_especie = :id
+    ");
+    $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+    $stmt->execute();
+    return $stmt->fetch(PDO::FETCH_ASSOC);
+}
+
+
+
+
     /**
      * CREAR un nuevo registro de especie en la base de datos.
      * Este método se usa para procesar los datos del formulario de registro.

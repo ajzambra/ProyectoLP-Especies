@@ -4,32 +4,30 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Mi Avance: Registrar Especie</title>
-  <link rel="stylesheet" href="public/css/registrar-especie.css">
+  <link rel="stylesheet" href="/ProyectoLP-Especies/public/css/registrar-especie.css">
 </head>
 <body>
 
     <header class="navbar">
-        <div class="navbar-container">
-            <a href="#" class="navbar-brand">🌿 Biodiversidad</a>
-            <nav>
-                <ul class="navbar-links">
-                    <li><a href="#">Inicio</a></li>
-                    <li><a href="#">Ver Especies</a></li>
-                    <li><a href="#">Ver Ecosistemas</a></li>
-                    <li><a href="#" class="nav-button active">Registrar Especie</a></li>
-                </ul>
-            </nav>
-        </div>
-    </header>
+      <div class="navbar-container">
+          <a href="/ProyectoLP-Especies/index.html" class="navbar-brand">🌿 Biodiversidad</a>
+          <nav>
+              <ul class="navbar-links">
+                  <li><a href="/ProyectoLP-Especies/index.html">Inicio</a></li>
+                  <li><a href="/ProyectoLP-Especies/frontend/catalog.html" class="nav-button active">Ver Especies</a></li>
+                  <li><a href="/ProyectoLP-Especies/frontend/registrar-especie.html">Registrar Especie</a></li>
+              </ul>
+          </nav>
+      </div>
+  </header>
 
   <div class="container">
     <h2>Registrar Nueva Especie</h2>
-    <p>Este es mi avance para el registro de especies. La lógica está manejada con TypeScript.</p>
     
     <form id="species-form">
       <div class="form-group">
         <label for="nombreComun">Nombre de la Especie</label>
-        <input type="text" id="nombreComun" name="nombreComun" required>
+      <input type="text" id="nombreComun" name="nombre_comun" required>
       </div>
       <div class="form-group">
         <label>Tipo de Especie</label>
@@ -42,12 +40,9 @@
       </div>
       <div class="form-group">
         <label for="ecosistema">Ecosistema Asociado</label>
-        <select id="ecosistema" name="ecosistema" required>
+        <select id="ecosistema" name="id_ecosistema" required>
           <option value="">-- Seleccione un ecosistema --</option>
-          <option value="1">Bosque</option>
-          <option value="2">Lago</option>
-          <option value="3">Playa</option>
-        </select>
+        </select> 
       </div>
       <div class="form-group">
         <label for="descripcion">Descripción y Características</label>
@@ -55,7 +50,7 @@
       </div>
       <div class="form-group">
         <label for="fotografia">Imagen de la Especie</label>
-        <input type="file" id="fotografia" name="fotografia" accept="image/png, image/jpeg, image/webp">
+        <input type="file" id="fotografia" name="imagen" accept="image/png, image/jpeg, image/webp">
       </div>
 
       <div id="image-preview-container">
@@ -69,6 +64,6 @@
     
   </div>
 
-  <script src="public/js/main.js"></script>
+  <script src="/ProyectoLP-Especies/public/js/main.js"></script>
 </body>
 </html>

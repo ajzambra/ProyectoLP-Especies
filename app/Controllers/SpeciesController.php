@@ -49,7 +49,11 @@ class SpeciesController {
                 }
             }
 
+            
+
             if ($this->species->create()) {
+                $errorInfo = $this->conn->errorInfo();
+                echo "Error al crear especie: " . implode(', ', $errorInfo);
                 header("Location: /ProyectoLP-Especies/public/species"); 
                 exit();
             } else {
@@ -71,6 +75,39 @@ class SpeciesController {
 
         require_once '../app/Views/species/edit.php';
     }
+
+    public function listAPI() {
+    header('Content-Type: application/json; charset=UTF-8');
+    try {
+        $stmt = $this->species->getAll();
+        $species_list = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        echo json_encode($species_list);
+        exit;
+    } catch (PDOException $e) {
+        http_response_code(500);
+        echo json_encode(['error' => 'Error al obtener especies', 'details' => $e->getMessage()]);
+        exit;
+    }
+    }
+
+    public function getAPI(int $id) {
+    header('Content-Type: application/json; charset=UTF-8');
+    try {
+        $species = $this->species->find($id);
+        if ($species) {
+            echo json_encode($species);
+        } else {
+            http_response_code(404);
+            echo json_encode(['error' => 'Especie no encontrada']);
+        }
+    } catch (PDOException $e) {
+        http_response_code(500);
+        echo json_encode(['error' => 'Error al obtener especie', 'details' => $e->getMessage()]);
+    }
+    exit;
+}
+
+
 
     public function update(int $id) {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {

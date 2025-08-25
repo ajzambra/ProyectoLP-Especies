@@ -1,0 +1,47 @@
+/* General */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #333;
+    background-color: #fafafa;
+}
+
+.main-title {
+    text-align: center;
+    font-size: 2.5em;
+    margin-top: 30px;
+    margin-bottom: 10px;
+    color: #2c3e50;
+}
+
+.species-name {
+    text-align: center;
+    font-size: 2em;
+    margin-bottom: 30px;
+    font-weight: bold;
+    color: #34495e;
+}
+
+/* Sección especie */
+.species-section {
+    display: flex;
+    max-width: 1000px;
+    margin: 0 auto 50px;
+    gap: 30px;
+    align-items: flex-start;
+}
+
+.species-left img {
+    width: 100%;
+    max-width: 400px;
+    border-radius: 10px;
+}
+
+.species-right {
+    flex: 1;
+}
+
+.species-right p {
+    font-size: 1.1em;
+    margin-bottom: 12px;
+    line-height: 1.6;
+}

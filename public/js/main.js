@@ -7,20 +7,44 @@ const fotografiaInput = document.getElementById('fotografia');
 const imagePreview = document.getElementById('image-preview');
 const imagePlaceholder = document.getElementById('image-preview-placeholder');
 function handleSubmit(event) {
-    var _a, _b;
     event.preventDefault();
-    const tipoSeleccionado = document.querySelector('input[name="tipo"]:checked').value;
-    const datosDelFormulario = {
-        nombreComun: nombreComunInput.value,
-        tipo: tipoSeleccionado,
-        ecosistemaId: ecosistemaSelect.value,
-        descripcion: descripcionTextarea.value,
-        nombreArchivo: ((_b = (_a = fotografiaInput.files) === null || _a === void 0 ? void 0 : _a[0]) === null || _b === void 0 ? void 0 : _b.name) || 'No se seleccionó archivo'
-    };
-    console.log('--- Simulación de Envío ---');
-    console.log(datosDelFormulario);
-    alert('¡Datos capturados! Revisa la consola del navegador (F12).');
-    form.reset();
+    const formData = new FormData(form);
+    fetch('/ProyectoLP-Especies/api/species.php?action=store', {
+        method: 'POST',
+        body: formData
+    })
+        .then(response => response.text())
+        .then(result => {
+        alert('¡Especie registrada correctamente!');
+        form.reset();
+        imagePreview.src = '';
+        imagePreview.classList.add('hidden');
+        imagePlaceholder.classList.remove('hidden');
+    })
+        .catch(error => {
+        console.error('Error al guardar la especie', error);
+        alert('Error al guardar la especie');
+    });
+}
+function cargarEcosistemas() {
+    fetch('/ProyectoLP-Especies/api/ecosystems.php')
+        .then(response => {
+        if (!response.ok)
+            throw new Error('No se pudieron cargar los ecosistemas');
+        return response.json();
+    })
+        .then((data) => {
+        ecosistemaSelect.innerHTML = '<option value="">-- Seleccione un ecosistema --</option>';
+        data.forEach(ecosistema => {
+            const option = document.createElement('option');
+            option.value = ecosistema.id.toString();
+            option.textContent = ecosistema.nombre;
+            ecosistemaSelect.appendChild(option);
+        });
+    })
+        .catch(error => {
+        console.error('Error cargando ecosistemas:', error);
+    });
 }
 fotografiaInput.addEventListener('change', () => {
     var _a;
@@ -43,3 +67,6 @@ fotografiaInput.addEventListener('change', () => {
     }
 });
 form.addEventListener('submit', handleSubmit);
+document.addEventListener('DOMContentLoaded', () => {
+    cargarEcosistemas();
+});

@@ -1,4 +1,9 @@
 <?php
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
+
 if (session_status() === PHP_SESSION_NONE) {
     session_set_cookie_params([
         'lifetime' => 3600,
@@ -114,9 +119,14 @@ if (!$isJsonRequest) {
             $controller->edit((int)$_GET['id']);
             exit;
         } elseif (isset($_GET['action']) && $_GET['action'] === 'list') {
-            $controller->index();
+            $controller->listAPI();
+            exit;
+        } elseif (isset($_GET['action']) && $_GET['action'] === 'get' && isset($_GET['id'])) {
+            header('Content-Type: application/json; charset=UTF-8');
+            $controller->getAPI((int)$_GET['id']);
             exit;
         }
+
     }
 }
 
