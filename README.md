@@ -30,4 +30,12 @@
 8. Prueba de escritura (crear especie)  
    Abre el formulario para crear ecosistemas:  
    [http://localhost/ProyectoLP-Especies/frontend/registrar-especie.html](http://localhost/ProyectoLP-Especies/frontend/registrar-especie.html)
-  
+
+9. Prueba de escritura (Filtrar y editar ecosistemas)  
+   Abre el administrador de ecosistemas:  
+   [http://localhost/ProyectoLP-Especies/show-ecosystem.html
+
+
+9. Prueba de escritura (Filtrar y editar especies)  
+   http://localhost/ProyectoLP-Especies/app/Views/species/index.php
+
